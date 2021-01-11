@@ -39,15 +39,6 @@ const replacePlaceholders = (
   return [...exisitingImages, ...loadedImages, ...placeholders];
 };
 
-/** Make sure images are loaded. */
-const loadImage = (url: string) =>
-  new Promise((resolve, reject) => {
-    const loadImg = new Image();
-    loadImg.src = url;
-    loadImg.onload = () => resolve(url);
-    loadImg.onerror = err => reject(err);
-  });
-
 const useStyles = createUseStyles({
   root: {
     position: 'relative',
@@ -91,15 +82,6 @@ const Gallery: FunctionComponent = () => {
         limit: GALLERY_INITIAL_SIZE,
       });
       setImages(catImages);
-      Promise.all(catImages.map(image => loadImage(image.url)))
-        // Replace cat placeholders.
-        .then(() => {
-          setImages(previousImage =>
-            replacePlaceholders(previousImage, catImages),
-          );
-        })
-        // Log errors.
-        .catch(() => console.error('Failed to load images.'));
     } catch (error) {
       setError(error.message);
     }
@@ -117,15 +99,10 @@ const Gallery: FunctionComponent = () => {
         order: 'RANDOM',
         limit: GALLERY_LOAD_MORE_SIZE,
       });
-      Promise.all(moreCatImages.map(image => loadImage(image.url)))
-        // Replace cat placeholders.
-        .then(() => {
-          setImages(previousImage =>
-            replacePlaceholders(previousImage, moreCatImages),
-          );
-        })
-        // Log errors.
-        .catch(() => console.error('Failed to load images.'));
+      // Replace cat placeholders.
+      setImages(previousImage =>
+        replacePlaceholders(previousImage, moreCatImages),
+      );
     } catch (error) {
       setError(error.message);
     }
