@@ -1,0 +1,1 @@
+export const GALLERY_DEFAULT_LOAD_SIZE = 50;
