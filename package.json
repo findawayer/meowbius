@@ -1,7 +1,32 @@
 {
   "name": "meowbius",
   "version": "0.1.0",
-  "private": true,
+  "description": "Cat pics viewer with infinite scroll in ReactJS.",
+  "homepage": "https://findawayer.github.io/meowbius",
+  "license": "GPL-3.0-or-later",
+  "author": "Tae Sung Lim <findawayer@gmail.com>",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint --ext .js,.ts,.tsx .",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --ext .js,.ts,.tsx --fix ."
+    ],
+    "*.{json,md}": [
+      "prettier --write ."
+    ]
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -10,23 +35,38 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
+    "jss": "^10.5.0",
+    "jss-preset-default": "^10.5.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
     "typescript": "^4.0.3",
     "web-vitals": "^0.2.4"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+  "devDependencies": {
+    "gh-pages": "^3.1.0",
+    "husky": "^4.3.7",
+    "lint-staged": "^10.5.3",
+    "prettier": "^2.2.1"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
     ]
+  },
+  "prettier": {
+    "printWidth": 80,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "quoteProps": "as-needed",
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "arrowParens": "avoid",
+    "proseWrap": "preserve",
+    "endOfLine": "crlf"
   },
   "browserslist": {
     "production": [

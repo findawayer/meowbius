@@ -1,46 +1,22 @@
-# Getting Started with Create React App
+# [Meowbius](https://findawayer.github.io/meowbius) &middot; <img src="https://img.shields.io/badge/React-Practice-blue" alt="React Practice">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+고양이 사진을 사용자의 스크롤에 반응해 추가으으로 불러오는 웹 애플리케이션입니다. React 스터디 세션을 위해 창작했으며, [TheCATAPI](https://thecatapi.com/)에서 제공되는 자료를 사용하고 있습니다.
 
-## Available Scripts
+## 설치
 
-In the project directory, you can run:
+```
+git clone https://github.com/findawayer/covid-19-statistics.git
+yarn install
+yarn start
+```
 
-### `yarn start`
+- `yarn` 커맨드는 사용자 환경에 따라 `npm` 커맨드로 안전하게 대체될 수 있습니다.
+- `yarn start`로 실행된 앱은 `http://localhost:3000`에서 확인할 수 있습니다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 개발 메모
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- `create-react-app`의 typescript 템플릿을 사용합니다.
+- 별도 라이브러리는 다음을 사용합니다.
+  - `jss`: CSS 작성 인터페이스
+  - `lint-staged` + `husky`: 코드 린팅 도우미
+- 앱의 로직에 관련된 코드는 라이브러리의 도움 없이 작성합니다.
