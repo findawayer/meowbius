@@ -1,34 +1,23 @@
-import type { FunctionComponent, ReactNode } from 'react';
+import type { FunctionComponent } from 'react';
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
+  '@keyframes loading': {
+    from: { background: '#bbb' },
+    to: { opacity: '#f2f2f2' },
+  },
   root: {
+    width: '100%',
+    height: '100%',
     background: 'lightgrey',
+    animation: '$loading 1s linear infinite alternate',
   },
 });
 
-interface SkeletonProps {
-  /** Width of skeleton in pixel */
-  width?: number;
-  /** Height of skeleton in pixel */
-  height?: number;
-  /** Possible children */
-  children?: ReactNode;
-}
-
-const Skeleton: FunctionComponent<SkeletonProps> = ({
-  width,
-  height,
-  children,
-}) => {
+const Skeleton: FunctionComponent = () => {
   const classes = useStyles();
-
-  return (
-    <figure className={classes.root} style={{ width, height }}>
-      {children ?? children}
-    </figure>
-  );
+  return <div className={classes.root} />;
 };
 
 export default Skeleton;

@@ -1,5 +1,5 @@
 import type { RefObject } from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { useIntersection } from './useIntersection';
 
@@ -19,16 +19,10 @@ export const useLoadMore = ({
 }: UseLoadMoreOptinos) => {
   const { observe, entry } = useIntersection({
     root: null,
-    rootMargin: `${offset}px`,
-    threshold: 0,
-    direction: 'down',
+    rootMargin: `0px 0px ${offset}px`,
+    threshold: 1,
   });
-  const [hasUpdate, setHasUpdate] = useState(false);
-  // Invoke `onLoadMore` and clear `hasUpdate` flag.
-  const fireCallback = useCallback(async () => {
-    await onLoadMore();
-    setHasUpdate(false);
-  }, [onLoadMore]);
+  const callbackRef = useRef(onLoadMore);
 
   // Observe intersection of target element.
   useEffect(() => {
@@ -37,11 +31,8 @@ export const useLoadMore = ({
 
   // If there is an intersecting entry, set the `hasUpdate` flag.
   useEffect(() => {
-    if (entry) setHasUpdate(true);
+    if (entry) {
+      callbackRef.current();
+    }
   }, [entry]);
-
-  // When there is an update, invoke `onLoadMore` and clear `hasUpdate` flag.
-  useEffect(() => {
-    if (hasUpdate) fireCallback();
-  }, [hasUpdate, fireCallback]);
 };

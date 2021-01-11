@@ -2,6 +2,7 @@
   "name": "meowbius",
   "version": "0.1.0",
   "description": "Cat pics viewer with infinite scroll in ReactJS.",
+  "homepage": "https://meowbius.vercel.app/",
   "license": "GPL-3.0-or-later",
   "author": "Tae Sung Lim <findawayer@gmail.com>",
   "scripts": {

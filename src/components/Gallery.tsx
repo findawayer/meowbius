@@ -4,14 +4,49 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createUseStyles } from 'react-jss';
 
 import {
+  GALLERY_IMAGE_HEIGHT,
   GALLERY_INITIAL_SIZE,
   GALLERY_LOAD_MORE_SIZE,
 } from '../config/gallery';
 import { useLoadMore } from '../hooks/useLoadMore';
 import type { CatImage } from '../models';
 import { getCatImages } from '../requests';
+import { times } from '../utils';
 import ErrorMessage from './ErrorMessage';
 import Skeleton from './Skeleton';
+
+type Placeholder = null;
+type PreloadedCatImages = Array<CatImage | Placeholder>;
+
+/** Create placeholders to load skeletons until images are ready. */
+const createPlaceholders = (length: number) => times(length, () => null);
+
+/** Append as many placeholders as `length` to existing image collection. */
+const appendPlaceholders = (
+  images: PreloadedCatImages,
+  length: number,
+): PreloadedCatImages => [...images, ...createPlaceholders(length)];
+
+/** Replace as many placeholders with loaded images. */
+const replacePlaceholders = (
+  images: PreloadedCatImages,
+  loadedImages: CatImage[],
+): PreloadedCatImages => {
+  const exisitingImages = images.filter(Boolean);
+  const placeholders = images.slice(
+    exisitingImages.length + loadedImages.length,
+  );
+  return [...exisitingImages, ...loadedImages, ...placeholders];
+};
+
+/** Make sure images are loaded. */
+const loadImage = (url: string) =>
+  new Promise((resolve, reject) => {
+    const loadImg = new Image();
+    loadImg.src = url;
+    loadImg.onload = () => resolve(url);
+    loadImg.onerror = err => reject(err);
+  });
 
 const useStyles = createUseStyles({
   root: {
@@ -24,8 +59,7 @@ const useStyles = createUseStyles({
     gridGap: '0.5rem',
     alignContent: 'start',
     '& figure': {
-      height: 300,
-      margin: 0,
+      height: GALLERY_IMAGE_HEIGHT,
     },
     '& img': {
       width: '100%',
@@ -37,8 +71,10 @@ const useStyles = createUseStyles({
 });
 
 const Gallery: FunctionComponent = () => {
-  // Fetched cat images :)
-  const [images, setImages] = useState<CatImage[]>([]);
+  // Fetched cat images :) (or skeletons!)
+  const [images, setImages] = useState<PreloadedCatImages>(
+    createPlaceholders(GALLERY_INITIAL_SIZE),
+  );
   // Any error encountered.
   const [error, setError] = useState<Error | null>(null);
   /** Element that watches user scroll and triggers the intersection callback. */
@@ -50,11 +86,20 @@ const Gallery: FunctionComponent = () => {
   const loadCatImages = async () => {
     try {
       const catImages = await getCatImages({
-        size: 'small',
+        size: 'thumb',
         order: 'RANDOM',
         limit: GALLERY_INITIAL_SIZE,
       });
       setImages(catImages);
+      Promise.all(catImages.map(image => loadImage(image.url)))
+        // Replace cat placeholders.
+        .then(() => {
+          setImages(previousImage =>
+            replacePlaceholders(previousImage, catImages),
+          );
+        })
+        // Log errors.
+        .catch(() => console.error('Failed to load images.'));
     } catch (error) {
       setError(error.message);
     }
@@ -62,12 +107,25 @@ const Gallery: FunctionComponent = () => {
   // Get more cat images.
   const loadMoreCatImages = async () => {
     try {
+      // Add placeholders first to display skeletons.
+      setImages(previousImages =>
+        appendPlaceholders(previousImages, GALLERY_LOAD_MORE_SIZE),
+      );
+      // Fetch more cat images.
       const moreCatImages = await getCatImages({
-        size: 'small',
+        size: 'thumb',
         order: 'RANDOM',
         limit: GALLERY_LOAD_MORE_SIZE,
       });
-      setImages(previousImages => [...previousImages, ...moreCatImages]);
+      Promise.all(moreCatImages.map(image => loadImage(image.url)))
+        // Replace cat placeholders.
+        .then(() => {
+          setImages(previousImage =>
+            replacePlaceholders(previousImage, moreCatImages),
+          );
+        })
+        // Log errors.
+        .catch(() => console.error('Failed to load images.'));
     } catch (error) {
       setError(error.message);
     }
@@ -89,10 +147,10 @@ const Gallery: FunctionComponent = () => {
   return (
     <div className={classes.root}>
       <div className={classes.grid}>
-        {images.map(({ url }) => (
-          <Skeleton key={nanoid()}>
-            <img src={url} alt="" loading="lazy" />
-          </Skeleton>
+        {images.map(image => (
+          <figure key={nanoid()}>
+            {image ? <img src={image.url} alt="" /> : <Skeleton />}
+          </figure>
         ))}
       </div>
       <div ref={endRef} className={classes.pageEnd} />

@@ -1,7 +1,7 @@
 import { CAT_API_ALL_IMAGES_URI } from '../config/the-cat-api';
 import type { CatImage } from '../models/the-cat-api';
-import type { QueryParameters } from '../utils/query-string';
-import { toQuery } from '../utils/query-string';
+import type { QueryParameters } from '../utils';
+import { toQuery } from '../utils';
 
 const queryTheCatApi = async (
   uri: string,
@@ -37,7 +37,7 @@ export type GetCatImageOptions = {
   order?: 'RANDOM' | 'ASC' | 'DESC';
   limit?: number;
   page?: number;
-  categori_ids?: number[];
+  category_ids?: number[];
   format?: string;
   breed_id?: string;
 };

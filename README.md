@@ -1,6 +1,8 @@
-# [Meowbius](https://findawayer.github.io/meowbius) &middot; <img src="https://img.shields.io/badge/React-Practice-blue" alt="React Practice">
+# Meowbius &middot; <img src="https://img.shields.io/badge/React-Practice-blue" alt="React Practice">
 
-고양이 사진을 사용자의 스크롤에 반응해 추가으으로 불러오는 웹 애플리케이션입니다. React 스터디 세션을 위해 창작했으며, [TheCATAPI](https://thecatapi.com/)에서 제공되는 자료를 사용하고 있습니다.
+고양이 사진을 사용자의 스크롤에 반응해 추가로 불러오는 웹 애플리케이션입니다. React 스터디 세션을 위해 창작했으며, [TheCATAPI](https://thecatapi.com/)에서 제공되는 자료를 사용하고 있습니다.
+
+[데모 페이지](https://meowbius.vercel.app/)가 준비돼 있습니다.
 
 ## 설치
 
