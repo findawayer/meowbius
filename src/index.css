@@ -1,5 +1,7 @@
+/* Import normalize.css from Create-React-App */
+@import-normalize;
+
 body {
-  margin: 0;
   font-family: 'Montserrat', sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

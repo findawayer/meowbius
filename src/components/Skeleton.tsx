@@ -5,17 +5,6 @@ import { createUseStyles } from 'react-jss';
 const useStyles = createUseStyles({
   root: {
     background: 'lightgrey',
-    textAlign: 'center',
-    fontSize: '2rem',
-    '& > *, &::before, &::after,': {
-      display: 'inline-block',
-      verticalAlign: 'middle',
-    },
-    '&::before, &::after': {
-      content: '""',
-      width: 1,
-      height: '100%',
-    },
   },
 });
 
@@ -36,9 +25,9 @@ const Skeleton: FunctionComponent<SkeletonProps> = ({
   const classes = useStyles();
 
   return (
-    <div className={classes.root} style={{ width, height }}>
+    <figure className={classes.root} style={{ width, height }}>
       {children ?? children}
-    </div>
+    </figure>
   );
 };
 
